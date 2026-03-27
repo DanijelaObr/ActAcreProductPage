@@ -1,0 +1,217 @@
+.site-header {
+  background-color: var(--color-bg);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.site-header__inner {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 0 var(--spacing-xl);
+  height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.site-header__left {
+  display: none;
+}
+
+.site-header__logo img {
+  height: auto;
+}
+
+.site-header__logo--desktop {
+  width: 48px;
+  display: block;
+}
+
+.site-header__logo--mobile {
+  width: 62px;
+  height: 49px;
+  display: none;
+}
+
+.site-header__menu {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-lg);
+}
+
+.site-header__menu a {
+  font-family: var(--font-primary);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-regular);
+  color: var(--color-text-primary);
+  letter-spacing: var(--letter-spacing-sm);
+  transition: opacity var(--transition-fast);
+}
+
+.site-header__menu a:hover {
+  opacity: 0.6;
+}
+
+.site-header__actions {
+  display: flex;
+  align-items: center;
+  gap: 17px;
+}
+
+.site-header__icon-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-text-primary);
+  transition: opacity var(--transition-fast);
+  width: 28px;
+  height: 28px;
+}
+
+.site-header__icon-btn:hover {
+  opacity: 0.6;
+}
+
+.site-header__icon-btn--disabled {
+  opacity: 0.24;
+  pointer-events: none;
+}
+
+.site-header__hamburger {
+  display: flex;
+  color: var(--color-text-primary);
+  width: 28px;
+  height: 28px;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Account mobile icon wrapper - stacks two SVGs vertically */
+.site-header__account-mobile-icon {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
+}
+
+/* Hide mobile-specific elements on desktop */
+.site-header__search--mobile,
+.site-header__account--mobile,
+.site-header__cart--mobile {
+  display: none;
+}
+
+/* Mobile menu */
+.mobile-menu {
+  display: none;
+  position: fixed;
+  top: 64px;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: var(--color-bg);
+  z-index: 99;
+  padding: var(--spacing-xl);
+}
+
+.mobile-menu--open {
+  display: block;
+}
+
+.mobile-menu__list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-lg);
+}
+
+.mobile-menu__list a {
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-regular);
+  color: var(--color-text-primary);
+  letter-spacing: var(--letter-spacing-sm);
+}
+
+/* ============================================
+   RESPONSIVE
+   ============================================ */
+@media (min-width: 769px) {
+  /* Hide mobile-only elements */
+  .site-header__left,
+  .site-header__search--mobile,
+  .site-header__account--mobile,
+  .site-header__cart--mobile {
+    display: none;
+  }
+
+  /* Show desktop elements */
+  .site-header__search--desktop,
+  .site-header__account--desktop,
+  .site-header__cart--desktop {
+    display: flex;
+  }
+}
+
+@media (max-width: 768px) {
+  .site-header__inner {
+    padding: 0 21px 0 28px;
+    height: 56px;
+  }
+
+  /* Hide desktop navigation and desktop-only icons */
+  .site-header__nav,
+  .site-header__search--desktop,
+  .site-header__account--desktop,
+  .site-header__cart--desktop {
+    display: none;
+  }
+
+  /* Show mobile left section */
+  .site-header__left {
+    display: flex;
+    align-items: center;
+    gap: 21px;
+  }
+
+  /* Center logo on mobile */
+  .site-header__logo {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  .site-header__logo--desktop {
+    display: none;
+  }
+
+  .site-header__logo--mobile {
+    display: block;
+  }
+
+  /* Show mobile-specific icons */
+  .site-header__search--mobile,
+  .site-header__account--mobile,
+  .site-header__cart--mobile {
+    display: flex;
+  }
+
+  /* Account button has extra spacing from logo */
+  .site-header__account--mobile {
+    margin-left: 84px;
+  }
+
+  /* Enable cart on mobile (remove disabled state) */
+  .site-header__cart--mobile.site-header__icon-btn--disabled {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .site-header__hamburger {
+    display: flex;
+  }
+
+  .site-header__actions {
+    gap: 15px;
+  }
+}
