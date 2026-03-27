@@ -16,5 +16,8 @@
     "url": "https://github.com/DanijelaObr/ActAcreProductPage/issues"
   },
   "homepage": "https://github.com/DanijelaObr/ActAcreProductPage#readme",
-  "description": ""
+  "description": "",
+  "devDependencies": {
+    "parcel": "^2.16.4"
+  }
 }
