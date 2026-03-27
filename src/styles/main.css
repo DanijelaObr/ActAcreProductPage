@@ -1,0 +1,35 @@
+/* ============================================
+   DESIGN TOKENS
+   ============================================ */
+:root {
+  /* Colors */
+  --color-bg: #ffffff;
+--color-bg-hero: #f6f6f5;
+--color-text-primary: #000000;
+--color-text-secondary: #4d4d4d;
+--color-text-muted: #a9a9a9;
+--color-border: #d9d9d9;
+--color-btn-cart: #9f938b;
+--color-btn-cart-hover: #948282;
+--color-btn-cart-text: #ffffff;
+--color-radio-active: #9f938b;
+--color-price-discount: #d35d5d;
+
+ /* Typography */
+--font-primary: 'Poppins', sans-serif;
+--font-secondary: 'Lato', sans-serif;
+
+--font-size-xs: 0.6875rem;  /* 11px */
+--font-size-sm: 0.875rem;   /* 14px */
+--font-size-base: 1rem;     /* 16px */
+--font-size-md: 1.25rem;    /* 20px */
+--font-size-lg: 1.5rem;     /* 24px */
+--font-size-xl: 1.75rem;    /* 28px */
+
+--font-weight-light: 300;
+--font-weight-regular: 400;
+--font-weight-medium: 500;
+
+--line-height-base: 1.6;
+--letter-spacing-sm: 0.05em;
+}
