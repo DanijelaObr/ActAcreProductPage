@@ -3,6 +3,7 @@ import cartSvg from "../../assets/images/Cart.svg";
 import accountSvg from "../../assets/images/Account.svg";
 import searchSvg from "../../assets/images/Search.svg";
 import menuSvg from "../../assets/images/Menu.svg";
+import arrowSvg from "../../assets/images/arrow-carousel.svg";
 
 // Mobile icons (all SVG now)
 import searchMobileSvg from "../../assets/images/SearchMobile.svg";
@@ -16,6 +17,7 @@ export const icons = {
   account: accountSvg,
   search: searchSvg,
   menu: menuSvg,
+  arrowCarousel: arrowSvg,
 
   // Mobile
   searchMobile: searchMobileSvg,
