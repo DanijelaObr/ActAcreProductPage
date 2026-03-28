@@ -1,4 +1,5 @@
 import { icons } from "../utils/icons.js";
+import { BREAKPOINTS, CAROUSEL_CONFIG } from "../utils/constants.js";
 
 const productCard = new URL(
   "../../assets/images/product-card.png",
@@ -58,18 +59,20 @@ export function initCarousel() {
   const prevBtn = document.querySelector(".carousel__btn--prev");
   const nextBtn = document.querySelector(".carousel__btn--next");
 
-  if (!track || !items.length) return;
+  if (!track || !items.length) return () => {};
 
   let currentIndex = 0;
   let startX = 0;
   let isDragging = false;
 
   function getVisibleCount() {
-    return window.innerWidth >= 769 ? 3 : 1;
+    return window.innerWidth >= BREAKPOINTS.TABLET
+      ? CAROUSEL_CONFIG.DESKTOP_VISIBLE
+      : CAROUSEL_CONFIG.MOBILE_VISIBLE;
   }
 
   function getItemWidth() {
-    return items[0].getBoundingClientRect().width + 40;
+    return items[0].getBoundingClientRect().width + CAROUSEL_CONFIG.GAP;
   }
 
   function updateCarousel() {
@@ -79,31 +82,43 @@ export function initCarousel() {
     track.style.transform = `translateX(-${currentIndex * getItemWidth()}px)`;
   }
 
-  prevBtn.addEventListener("click", () => {
+  function handlePrevClick() {
     currentIndex--;
     updateCarousel();
-  });
+  }
 
-  nextBtn.addEventListener("click", () => {
+  function handleNextClick() {
     currentIndex++;
     updateCarousel();
-  });
+  }
 
-  track.addEventListener("touchstart", (e) => {
+  function handleTouchStart(e) {
     startX = e.touches[0].clientX;
     isDragging = true;
-  });
+  }
 
-  track.addEventListener("touchend", (e) => {
+  function handleTouchEnd(e) {
     if (!isDragging) return;
     const diff = startX - e.changedTouches[0].clientX;
-    if (Math.abs(diff) > 50) {
+    if (Math.abs(diff) > CAROUSEL_CONFIG.SWIPE_THRESHOLD) {
       if (diff > 0) currentIndex++;
       else currentIndex--;
     }
     isDragging = false;
     updateCarousel();
-  });
+  }
 
+  prevBtn.addEventListener("click", handlePrevClick);
+  nextBtn.addEventListener("click", handleNextClick);
+  track.addEventListener("touchstart", handleTouchStart);
+  track.addEventListener("touchend", handleTouchEnd);
   window.addEventListener("resize", updateCarousel);
+
+  return () => {
+    prevBtn.removeEventListener("click", handlePrevClick);
+    nextBtn.removeEventListener("click", handleNextClick);
+    track.removeEventListener("touchstart", handleTouchStart);
+    track.removeEventListener("touchend", handleTouchEnd);
+    window.removeEventListener("resize", updateCarousel);
+  };
 }

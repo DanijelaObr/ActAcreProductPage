@@ -1,3 +1,10 @@
+import {
+  QUANTITY_CONFIG,
+  TOAST_DURATION,
+  BADGES,
+  BREADCRUMB_ITEMS,
+} from "../utils/constants.js";
+
 const productImg = new URL(
   "../../assets/images/product-hero.png",
   import.meta.url,
@@ -11,36 +18,39 @@ const arrowBack = new URL(
   import.meta.url,
 );
 
+function createBreadcrumb(isMobile = false) {
+  const className = isMobile
+    ? "hero__breadcrumb--mobile"
+    : "hero__breadcrumb--desktop";
+
+  return `
+    <nav class="${className}" aria-label="Breadcrumb">
+      <a href="#" class="hero__breadcrumb-back">
+        <img src="${arrowBack}" alt="" class="hero__breadcrumb-arrow">
+      </a>
+      <ol class="hero__breadcrumb-list">
+        ${BREADCRUMB_ITEMS.map((item) => {
+          if (item.current) {
+            return `<li aria-current="page">${item.label}</li>`;
+          }
+          return `<li><a href="${item.href}">${item.label}</a></li>`;
+        }).join("")}
+      </ol>
+    </nav>
+  `;
+}
+
 export function Hero() {
   return `
     <section class="hero">
 
-    <div class="hero__image-wrap">
-    <nav class="hero__breadcrumb hero__breadcrumb--mobile" aria-label="Breadcrumb">
-      <a href="#" class="hero__breadcrumb-back">
-        <img src="${arrowBack}" alt="" class="hero__breadcrumb-arrow">
-      </a>
-      <ol class="hero__breadcrumb-list">
-        <li><a href="#">All Products</a></li>
-        <li><a href="#">Haircare</a></li>
-        <li aria-current="page">Restorative Hair Mask</li>
-      </ol>
-    </nav>
-    <img src="${productImg}" alt="Restorative Hair Mask" class="hero__image">
-  </div>
+      <div class="hero__image-wrap">
+        ${createBreadcrumb(true)}
+        <img src="${productImg}" alt="Restorative Hair Mask" class="hero__image">
+      </div>
 
       <div class="hero__content">
-
-      <nav class="hero__breadcrumb hero__breadcrumb--desktop" aria-label="Breadcrumb">
-      <a href="#" class="hero__breadcrumb-back">
-        <img src="${arrowBack}" alt="" class="hero__breadcrumb-arrow">
-      </a>
-      <ol class="hero__breadcrumb-list">
-        <li><a href="#">All Products</a></li>
-        <li><a href="#">Haircare</a></li>
-        <li aria-current="page">Restorative Hair Mask</li>
-      </ol>
-    </nav>
+        ${createBreadcrumb(false)}
 
         <h1 class="hero__title">Restorative Hair Mask</h1>
         <p class="hero__subtitle">Nuturishment in a bottle</p>
@@ -54,22 +64,18 @@ export function Hero() {
         </p>
 
         <div class="hero__badges">
-          <div class="hero__badge">
-            <img src="${organicBadge}" alt="" class="hero__badge-icon">
-            <span class="hero__badge-label">100% Organic</span>
-          </div>
-          <div class="hero__badge">
-            <img src="${organicBadge}" alt="" class="hero__badge-icon">
-            <span class="hero__badge-label">100% Organic</span>
-          </div>
-          <div class="hero__badge">
-            <img src="${organicBadge}" alt="" class="hero__badge-icon">
-            <span class="hero__badge-label">100% Organic</span>
-          </div>
-          <div class="hero__badge">
-            <img src="${organicBadge}" alt="" class="hero__badge-icon">
-            <span class="hero__badge-label">100% Organic</span>
-          </div>
+          ${(() => {
+            let badgesHTML = "";
+            for (const badge of BADGES) {
+              badgesHTML += `
+                <div class="hero__badge">
+                  <img src="${organicBadge}" alt="" class="hero__badge-icon">
+                  <span class="hero__badge-label">${badge.label}</span>
+                </div>
+              `;
+            }
+            return badgesHTML;
+          })()}
         </div>
 
         <hr class="hero__divider">
@@ -87,9 +93,9 @@ export function Hero() {
 
         <div class="hero__cart-row">
           <div class="hero__quantity">
-            <button class="hero__qty-btn" aria-label="Decrease quantity">-</button>
+            <button class="hero__qty-btn" data-action="decrease" aria-label="Decrease quantity">-</button>
             <span class="hero__qty-value">1</span>
-            <button class="hero__qty-btn" aria-label="Increase quantity">+</button>
+            <button class="hero__qty-btn" data-action="increase" aria-label="Increase quantity">+</button>
           </div>
           <button class="hero__add-to-cart" id="add-to-cart-btn">
             Add to Cart
@@ -111,28 +117,51 @@ export function initHero() {
   const qtyBtns = document.querySelectorAll(".hero__qty-btn");
   const qtyValue = document.querySelector(".hero__qty-value");
 
-  if (!addToCartBtn || !toast || !qtyValue) return;
+  if (!addToCartBtn || !toast || !qtyValue) return () => {};
 
-  let quantity = 1;
+  let quantity = QUANTITY_CONFIG.DEFAULT;
+  let toastTimeout;
 
-  qtyBtns.forEach((btn) => {
-    btn.addEventListener("click", () => {
-      if (btn.getAttribute("aria-label") === "Increase quantity") {
+  function handleQuantityClick(e) {
+    const btn = e.currentTarget;
+    const action = btn.dataset.action;
+
+    if (action === "increase") {
+      if (quantity < QUANTITY_CONFIG.MAX) {
         quantity++;
-      } else if (quantity > 1) {
+      }
+    } else if (action === "decrease") {
+      if (quantity > QUANTITY_CONFIG.MIN) {
         quantity--;
       }
-      qtyValue.textContent = quantity;
-    });
-  });
+    }
 
-  addToCartBtn.addEventListener("click", () => {
+    qtyValue.textContent = quantity;
+  }
+
+  function handleAddToCart() {
     addToCartBtn.classList.add("hero__add-to-cart--added");
     toast.classList.add("hero__toast--visible");
 
-    setTimeout(() => {
+    toastTimeout = setTimeout(() => {
       addToCartBtn.classList.remove("hero__add-to-cart--added");
       toast.classList.remove("hero__toast--visible");
-    }, 2000);
+    }, TOAST_DURATION);
+  }
+
+  qtyBtns.forEach((btn) => {
+    btn.addEventListener("click", handleQuantityClick);
   });
+
+  addToCartBtn.addEventListener("click", handleAddToCart);
+
+  return () => {
+    qtyBtns.forEach((btn) => {
+      btn.removeEventListener("click", handleQuantityClick);
+    });
+    addToCartBtn.removeEventListener("click", handleAddToCart);
+    if (toastTimeout) {
+      clearTimeout(toastTimeout);
+    }
+  };
 }

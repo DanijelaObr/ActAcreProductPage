@@ -80,12 +80,18 @@ export function initHeader() {
   const hamburger = document.querySelector(".site-header__hamburger");
   const mobileMenu = document.querySelector(".mobile-menu");
 
-  if (!hamburger || !mobileMenu) return;
+  if (!hamburger || !mobileMenu) return () => {};
 
-  hamburger.addEventListener("click", () => {
+  function handleHamburgerClick() {
     const isOpen = hamburger.getAttribute("aria-expanded") === "true";
     hamburger.setAttribute("aria-expanded", String(!isOpen));
     mobileMenu.classList.toggle("mobile-menu--open");
     mobileMenu.setAttribute("aria-hidden", String(isOpen));
-  });
+  }
+
+  hamburger.addEventListener("click", handleHamburgerClick);
+
+  return () => {
+    hamburger.removeEventListener("click", handleHamburgerClick);
+  };
 }

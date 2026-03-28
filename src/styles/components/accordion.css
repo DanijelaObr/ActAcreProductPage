@@ -1,6 +1,6 @@
 .accordion {
   width: 100%;
-  padding: 0 21px 0 26px;
+  padding: 0 var(--spacing-mobile-side) 0 var(--spacing-carousel-left);
 }
 
 .accordion__item {
@@ -63,12 +63,13 @@
   width: 100%;
 }
 
-/* ============================================
-   DESKTOP
-   ============================================ */
 @media (min-width: 769px) {
   .accordion {
     max-width: 800px;
-    padding-left: 137px;
+    padding-left: var(--spacing-accordion-desktop);
+  }
+
+  .accordion__panel {
+    padding-top: 42px;
   }
 }

@@ -17,7 +17,16 @@ app.innerHTML = `
   ${Carousel()}
 `;
 
-initHeader();
-initHero();
-initAccordion();
-initCarousel();
+const cleanupHeader = initHeader();
+const cleanupHero = initHero();
+const cleanupAccordion = initAccordion();
+const cleanupCarousel = initCarousel();
+
+if (import.meta.hot) {
+  import.meta.hot.dispose(() => {
+    cleanupHeader();
+    cleanupHero();
+    cleanupAccordion();
+    cleanupCarousel();
+  });
+}

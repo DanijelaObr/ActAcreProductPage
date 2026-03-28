@@ -1,24 +1,11 @@
+import { ACCORDION_CONFIG } from "../utils/constants.js";
+
 export function Accordion() {
-  const items = [
-    {
-      title: "Ingredients",
-      content:
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Tempor commodo ullamcorper a lacus vestibulum. Luctus accumsan tortor posuere ac ut.",
-      open: true,
-    },
-    {
-      title: "Ingredients",
-      content:
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Tempor commodo ullamcorper a lacus vestibulum. Luctus accumsan tortor posuere ac ut.",
-      open: false,
-    },
-    {
-      title: "Ingredients",
-      content:
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Tempor commodo ullamcorper a lacus vestibulum. Luctus accumsan tortor posuere ac ut.",
-      open: false,
-    },
-  ];
+  const items = Array.from({ length: ACCORDION_CONFIG.count }, (_, index) => ({
+    title: ACCORDION_CONFIG.title,
+    content: ACCORDION_CONFIG.content,
+    open: index === 0,
+  }));
 
   return `
     <section class="accordion">
@@ -45,25 +32,40 @@ export function Accordion() {
 export function initAccordion() {
   const items = document.querySelectorAll(".accordion__item");
 
+  if (!items.length) return () => {};
+
+  const handlers = [];
+
   items.forEach((item) => {
     const trigger = item.querySelector(".accordion__trigger");
-    const panel = item.querySelector(".accordion__panel");
     const icon = item.querySelector(".accordion__icon");
 
-    trigger.addEventListener("click", () => {
+    function handleClick() {
       const isOpen = item.classList.contains("accordion__item--open");
 
-      // Zatvori sve
       items.forEach((i) => {
         i.classList.remove("accordion__item--open");
+        i.querySelector(".accordion__trigger").setAttribute(
+          "aria-expanded",
+          "false",
+        );
         i.querySelector(".accordion__icon").textContent = "+";
       });
 
-      // Otvori kliknuti
       if (!isOpen) {
         item.classList.add("accordion__item--open");
+        trigger.setAttribute("aria-expanded", "true");
         icon.textContent = "−";
       }
-    });
+    }
+
+    trigger.addEventListener("click", handleClick);
+    handlers.push({ trigger, handleClick });
   });
+
+  return () => {
+    handlers.forEach(({ trigger, handleClick }) => {
+      trigger.removeEventListener("click", handleClick);
+    });
+  };
 }

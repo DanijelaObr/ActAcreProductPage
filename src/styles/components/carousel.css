@@ -30,7 +30,7 @@
   display: flex;
   gap: 40px;
   transition: transform var(--transition-base);
-  padding-left: 26px;
+  padding-left: var(--spacing-carousel-left);
 }
 
 .carousel__item {
@@ -80,7 +80,7 @@
   font-size: var(--font-size-base);
   font-weight: var(--font-weight-regular);
   color: var(--color-text-secondary);
-  padding-top: 26px;
+  padding-top: var(--spacing-carousel-left);
   padding-bottom: 170px;
 }
 
@@ -88,9 +88,6 @@
   display: none;
 }
 
-/* ============================================
-   DESKTOP
-   ============================================ */
 @media (min-width: 769px) {
   .carousel__track {
     padding-left: 0;
@@ -99,9 +96,8 @@
 
   .carousel__wrapper {
     padding-left: 65px;
-    padding-right: 65px;
+    padding-right: 75px;
     max-width: 1440px;
-    margin: 0 auto;
     display: flex;
     align-items: center;
     gap: var(--spacing-md);
@@ -120,6 +116,7 @@
     font-size: var(--font-size-xl);
     margin-bottom: 13px;
     padding-top: 124px;
+    padding-right: 294px;
   }
 
   .carousel__btn {

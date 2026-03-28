@@ -5,7 +5,7 @@ import searchSvg from "../../assets/images/Search.svg";
 import menuSvg from "../../assets/images/Menu.svg";
 import arrowSvg from "../../assets/images/arrow-carousel.svg";
 
-// Mobile icons (all SVG now)
+// Mobile icons
 import searchMobileSvg from "../../assets/images/SearchMobile.svg";
 import account1MobileSvg from "../../assets/images/Account1Mobile.svg";
 import account2MobileSvg from "../../assets/images/Account2Mobile.svg";

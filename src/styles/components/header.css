@@ -6,9 +6,8 @@
 }
 
 .site-header__inner {
-  max-width: var(--max-width);
-  margin: 0 auto;
-  padding: 0 var(--spacing-xl);
+  padding-left: 60px;
+  padding-right: 229px;
   height: 64px;
   display: flex;
   align-items: center;
@@ -57,7 +56,7 @@
 .site-header__actions {
   display: flex;
   align-items: center;
-  gap: 17px;
+  gap: var(--spacing-actions);
 }
 
 .site-header__icon-btn {
@@ -107,7 +106,7 @@
 .mobile-menu {
   display: none;
   position: fixed;
-  top: 64px;
+  top: 56px;
   left: 0;
   right: 0;
   bottom: 0;
@@ -133,9 +132,6 @@
   letter-spacing: var(--letter-spacing-sm);
 }
 
-/* ============================================
-   RESPONSIVE
-   ============================================ */
 @media (min-width: 769px) {
   /* Hide mobile-only elements */
   .site-header__left,
@@ -155,7 +151,7 @@
 
 @media (max-width: 768px) {
   .site-header__inner {
-    padding: 0 21px 0 28px;
+    padding: 0 var(--spacing-mobile-side) 0 var(--spacing-mobile-left);
     height: 56px;
   }
 
@@ -171,7 +167,7 @@
   .site-header__left {
     display: flex;
     align-items: center;
-    gap: 21px;
+    gap: var(--spacing-mobile-side);
   }
 
   /* Center logo on mobile */
